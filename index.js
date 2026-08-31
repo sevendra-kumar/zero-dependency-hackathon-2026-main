@@ -369,34 +369,30 @@ async function cmdWatch(positional) {
   const names = Object.keys(data.accounts);
   if (names.length === 0) return process.stdout.write('No accounts found.\n');
 
-  const selectedNames = positional.length > 0 ? positional : names;
-  const accounts = selectedNames.map((name) => ({
-    name,
-    key: base32Decode(data.accounts[name].secret),
-    ...data.accounts[name],
-  }));
+  const selectedName = positional[0] || names[0];
+  if (!data.accounts[selectedName]) throw new Error(`Account '${selectedName}' not found`);
+
+  const acct = {
+    name: selectedName,
+    key: base32Decode(data.accounts[selectedName].secret),
+    ...data.accounts[selectedName],
+  };
 
   if (process.stdout.isTTY) process.stdout.write('\x1b[?25l');
 
   const render = () => {
     const now = Date.now() + GLOBAL_TIME_OFFSET_MS;
-    const parts = [];
+    const code = totp(acct.key, { digits: acct.digits, step: acct.step, algo: acct.algo, time: now });
+    const formattedCode = code.length === 6 ? `${code.slice(0, 3)} ${code.slice(3)}` : code;
+    const elapsed = Math.floor((now / 1000) % acct.step);
+    const remaining = acct.step - elapsed;
+    const bar = progressBar(elapsed, acct.step, 8);
 
-    for (const acct of accounts) {
-      const code = totp(acct.key, { digits: acct.digits, step: acct.step, algo: acct.algo, time: now });
-      const formattedCode = code.length === 6 ? `${code.slice(0, 3)} ${code.slice(3)}` : code;
-      const elapsed = Math.floor((now / 1000) % acct.step);
-      const remaining = acct.step - elapsed;
-      const bar = progressBar(elapsed, acct.step, 8);
+    let color = 'green';
+    if (remaining <= 5) color = 'red';
+    else if (remaining <= 10) color = 'yellow';
 
-      let color = 'green';
-      if (remaining <= 5) color = 'red';
-      else if (remaining <= 10) color = 'yellow';
-
-      parts.push(`${paint('bold', acct.name.toUpperCase())} ${paint(color, formattedCode)} ${paint(color, `[${bar}] ${remaining}s`)}`);
-    }
-
-    const output = parts.join(' | ');
+    const output = `${paint('bold', acct.name.toUpperCase())} ${paint(color, formattedCode)} ${paint(color, `[${bar}] ${remaining}s`)}`;
 
     if (process.stdout.isTTY) {
       readline.cursorTo(process.stdout, 0);
