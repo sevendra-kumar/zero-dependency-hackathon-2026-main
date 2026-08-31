@@ -1,0 +1,12 @@
+{
+  "name": "totp-vault",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zero-dependency RFC 6238 TOTP authenticator CLI and encrypted security vault",
+  "scripts": {
+    "start": "node index.js",
+    "build": "node index.js help",
+    "test": "node --test test.js"
+  },
+  "dependencies": {}
+}
