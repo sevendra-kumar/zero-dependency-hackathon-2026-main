@@ -1,45 +1,29 @@
+Here is the updated **`README.md`** with all multi-account references (such as `AWS` and side-by-side display) completely removed, focusing solely on the strict single-line, single-account watch mode:
+
+```markdown
 # TOTP Vault
 
-A production-grade, **zero-dependency** RFC 6238 TOTP authenticator CLI and encrypted security vault. Built entirely with the Node.js standard library — no npm packages, no installs, no external downloads.
+A production-grade, **zero-dependency** RFC 6238 TOTP authenticator CLI and encrypted security vault[cite: 1]. Built entirely with the Node.js standard library — no npm packages, no installs, no external downloads[cite: 1].
 
-Track E submission for the **Zero Dependency Hackathon 2026** (Security & Crypto Utilities).
+Track E submission for the **Zero Dependency Hackathon 2026** (Security & Crypto Utilities)[cite: 1].
 
 ## Features
 
-* **RFC 6238 TOTP** generation with SHA-1 and SHA-256 support
-
-
-* **RFC 4226 HOTP** counter-based codes
-
-
-* **RFC 4648 Base32** decoder written from scratch with bitwise operations, lookup table, and strict trailing-bit validation
-
-
-* **Zero-allocation HMAC** — reuses a module-level 8-byte counter buffer for every OTP calculation
-
-
-* **Unsigned right-shift fix** — `>>> 0` on the dynamic truncation bin ensures codes never evaluate as negative
-
-
-* **Timing-safe verification** with configurable ±N window drift tolerance (prevents timing attacks via `crypto.timingSafeEqual`)
-
-
-* **AES-256-GCM encrypted vault** using PBKDF2 key derivation (100,000 iterations, SHA-256)
-
-
-* **Stationary Single-Line Watch HUD** — locked, in-place live countdown with native console buffer control (`readline.cursorTo`) and smooth dynamic color transitions (Green $\rightarrow$ Yellow $\rightarrow$ Red) without terminal line wrapping or scroll spam
-* **Multi-Account Inline Monitoring** — view all registered accounts side-by-side on a single line
-* **Software Time Offset Compensation** — millisecond-accurate visual alignment via `TOTP_TIME_OFFSET`
-* **Tamper detection** via GCM authentication tags (ciphertext, IV, and auth tag all verified)
-
-
-* **Password entropy meter** displayed during vault creation
-
-
+- **RFC 6238 TOTP** generation with SHA-1 and SHA-256 support[cite: 1]
+- **RFC 4226 HOTP** counter-based codes[cite: 1]
+- **RFC 4648 Base32** decoder written from scratch with bitwise operations, lookup table, and strict trailing-bit validation[cite: 1]
+- **Zero-allocation HMAC** — reuses a module-level 8-byte counter buffer for every OTP calculation[cite: 1]
+- **Unsigned right-shift fix** — `>>> 0` on the dynamic truncation bin ensures codes never evaluate as negative[cite: 1]
+- **Timing-safe verification** with configurable ±N window drift tolerance (prevents timing attacks via `crypto.timingSafeEqual`)[cite: 1]
+- **AES-256-GCM encrypted vault** using PBKDF2 key derivation (100,000 iterations, SHA-256)[cite: 1]
+- **Stationary Single-Line Watch HUD** — locked, in-place live countdown with native console buffer control (`readline.cursorTo`) and smooth dynamic color transitions (Green $\rightarrow$ Yellow $\rightarrow$ Red) without terminal line wrapping or scroll spam
+- **Software Time Offset Compensation** — millisecond-accurate visual alignment via `TOTP_TIME_OFFSET`
+- **Tamper detection** via GCM authentication tags (ciphertext, IV, and auth tag all verified)[cite: 1]
+- **Password entropy meter** displayed during vault creation[cite: 1]
 
 ## Installation
 
-None required. This project has zero runtime dependencies. You only need Node.js 16+.
+None required[cite: 1]. This project has zero runtime dependencies[cite: 1]. You only need Node.js 16+[cite: 1].
 
 ```bash
 # Verify zero dependencies
@@ -60,10 +44,7 @@ node index.js generate github
 # List all stored accounts
 node index.js list
 
-# Live watch mode — single-line in-place countdown for all accounts
-node index.js watch
-
-# Live watch mode — focus on a single account
+# Live watch mode — single-line in-place countdown
 node index.js watch github
 
 ```
@@ -90,13 +71,12 @@ node index.js watch github
 The `watch` command operates strictly in-place on a **single stationary terminal line**:
 
 ```text
-GITHUB 652 683 [██████░░] 18s | AWS 112 904 [██████░░] 18s
+GITHUB 652 683 [██████░░] 18s
 
 ```
 
 * **No Terminal Scroll:** Uses `readline.cursorTo(0)` and `readline.clearLine(0)` to overwrite the exact same console buffer line, completely preventing duplicate output lines down the screen.
 * **Dynamic Color Transitions:** The code, time indicator, and progress bar dynamically shift from **Green** ($\ge 11\text{s}$) to **Yellow** ($6\text{s} - 10\text{s}$) and **Red** ($\le 5\text{s}$).
-* **Multi-Account Support:** Automatically formats and monitors all accounts side-by-side within terminal bounds.
 
 ## Security Architecture
 
@@ -169,3 +149,7 @@ See [STDLIB.md](https://www.google.com/search?q=STDLIB.md) for detailed implemen
 ## License
 
 MIT
+
+```
+
+```
